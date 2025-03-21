@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
 import { CreatedPost, FeedPost, Post, PostSchema } from '@feed/shared/models';
-import { USER_SELECT } from '@/users/user.select';
+import { USER_SELECT } from '@/modules/users/user.select';
 
 @Injectable()
 export class PostsService {

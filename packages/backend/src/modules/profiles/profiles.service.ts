@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
-import { createPublicUser } from '@/users/createPublicUser';
-import { USER_SELECT } from '@/users/user.select';
+import { createPublicUser } from '@/modules/users/createPublicUser';
+import { USER_SELECT } from '@/modules/users/user.select';
 import { PublicUser } from '@feed/shared/models';
 
 @Injectable()

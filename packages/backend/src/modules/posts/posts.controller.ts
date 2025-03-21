@@ -17,7 +17,7 @@ import {
   FeedPost,
   Post as PostModel,
 } from '@feed/shared/models';
-import { ZodValidationPipe } from '@/validation/zod.pipe';
+import { ZodValidationPipe } from '@/common/validation/zod.pipe';
 import { API_ROUTES } from '@feed/shared/api';
 
 @Controller()

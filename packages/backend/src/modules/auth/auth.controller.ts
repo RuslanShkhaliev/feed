@@ -12,17 +12,17 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
-import { Public } from '@/decorators/isPublic';
-import { LocalAuthGuard } from '@/guards';
+import { Public } from '@/common/decorators';
+import { LocalAuthGuard } from '@/common/guards';
 import { API_ROUTES } from '@feed/shared/api';
-import { ZodValidationPipe } from '@/validation/zod.pipe';
+import { ZodValidationPipe } from '@/common/validation';
 import {
   AuthCredentials,
   AuthCredentialsSchema,
   type AuthResponse,
   RefreshTokenResponse,
 } from '@feed/shared/models';
-import { COOKIE_OPTIONS, REFRESH_KEY } from '@/auth/constants';
+import { COOKIE_OPTIONS, REFRESH_KEY } from '@/modules/auth/constants';
 
 @Controller()
 export class AuthController {

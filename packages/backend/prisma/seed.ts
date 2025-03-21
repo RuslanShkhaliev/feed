@@ -1,6 +1,6 @@
 import { prisma } from './client';
 import bcrypt from 'bcrypt';
-import { SALT_ROUNDS } from '../src/auth/constants';
+import { SALT_ROUNDS } from '../src/modules/auth/constants';
 import { faker } from '@faker-js/faker';
 import { Post, User } from '@prisma/client';
 

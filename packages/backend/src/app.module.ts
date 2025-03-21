@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from '@/users/users.module';
+import { AuthModule } from '@/modules/auth/auth.module';
+import { UsersModule } from '@/modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
-import { PostsModule } from './posts/posts.module';
-import { ProfilesModule } from '@/profiles/profiles.module';
+import { PostsModule } from '@/modules/posts/posts.module';
+import { ProfilesModule } from '@/modules/profiles/profiles.module';
 import { PrismaService } from './prisma.service';
-import { JwtAuthGuard } from '@/guards';
+import { JwtAuthGuard } from '@/common/guards';
 import { APP_GUARD } from '@nestjs/core';
 import { FriendshipModule } from '@/friendship/friendship.module';
 
