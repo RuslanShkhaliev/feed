@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  name  String @default("")
+  password String
+  posts Post[] @relation("UserPosts")
+  comments Comment[]
+  subscribers  Friendship[] @relation("UserSubscribers")
+  following  Friendship[] @relation("UserFollowing")
+
+  createdAt   DateTime @default(now())
+}
+
+model Friendship {
+  id          Int @id @default(autoincrement())
+  subscriberId  Int
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  subscriber    User @relation("UserSubscribers", fields: [subscriberId], references: [id])
+  following   User @relation("UserFollowing", fields: [followingId], references: [id])
+
+
+  @@unique([subscriberId, followingId])
+}
+
+model Post {
+  id        Int      @default(autoincrement()) @id
+  images    String[] @default([])
+  content   String @default("")
+  published Boolean @default(false)
+  likes Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  author    User    @relation("UserPosts", fields: [authorId], references: [id])
+  authorId  Int
+  comments Comment[]
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+
+  text Json
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  postId Int
+  post Post @relation(fields: [postId], references: [id])
+
+  authorId Int
+  author User @relation(fields: [authorId], references: [id])
+}
