@@ -1,0 +1,36 @@
+{
+  "name": "@feed/shared",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./api": {
+      "import": "./dist/browser/api/index.js",
+      "require": "./dist/node/api/index.js",
+      "node": "./dist/node/api/index.js",
+      "types": "./dist/node/api/index.d.ts"
+    },
+    "./enums": {
+      "import": "./dist/browser/enums/index.js",
+      "require": "./dist/node/enums/index.js",
+      "node": "./dist/node/enums/index.js",
+      "types": "./dist/node/enums/index.d.ts"
+    },
+    "./models": {
+      "import": "./dist/browser/models/index.js",
+      "require": "./dist/node/models/index.js",
+      "node": "./dist/node/models/index.js",
+      "types": "./dist/node/models/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build:browser": "tsc --project tsconfig.browser.json",
+    "build:node": "tsc --project tsconfig.node.json",
+    "build": "yarn build:node && yarn build:browser"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

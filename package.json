@@ -1,0 +1,20 @@
+{
+  "packageManager": "yarn@4.7.0",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "hoistingLimits": {
+      "packages/frontend": "dependencies"
+    }
+  },
+  "scripts": {
+    "dev": "yarn workspace @feed/frontend dev & yarn workspace @feed/backend dev",
+    "build": "yarn workspaces foreach --all run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "lerna": "^8.2.1"
+  }
+}
