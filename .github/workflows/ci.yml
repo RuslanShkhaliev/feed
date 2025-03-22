@@ -20,9 +20,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🔧 Enable Corepack
-        run: | 
-          corepack enable
-          corepack prepare yarn@4.7.0 --activate
+        run: corepack enable
+
+      - name: ⚙️ Use project Yarn version
+        run: corepack use
 
       - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
@@ -47,6 +48,11 @@ jobs:
     needs: setup
 
     steps:
+      - name: 🔧 Enable Corepack
+        run: corepack enable
+
+      - name: ⚙️ Use project Yarn version
+        run: corepack use
       - name: 📦 Восстановление проекта
         uses: actions/download-artifact@v4
         with:
@@ -62,6 +68,11 @@ jobs:
     needs: lint
 
     steps:
+      - name: 🔧 Enable Corepack
+        run: corepack enable
+
+      - name: ⚙️ Use project Yarn version
+        run: corepack use
       - name: 📦 Восстановление проекта
         uses: actions/download-artifact@v4
         with:
@@ -84,6 +95,11 @@ jobs:
       name: production
 
     steps:
+      - name: 🔧 Enable Corepack
+        run: corepack enable
+
+      - name: ⚙️ Use project Yarn version
+        run: corepack use
       - name: 📦Восстановление проекта
         uses: actions/download-artifact@v4
         with:
