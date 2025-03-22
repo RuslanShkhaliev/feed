@@ -1,18 +1,18 @@
 name: CI
 
-# 🔁 Срабатывает при пуше в ветки dev и main
 on:
   push:
     branches: ["main", "dev"]
   pull_request:
     branches: ["main"]
 
-env: # 🌍 Общие переменные окружения (если понадобятся)
+env:
   NODE_VERSION: 22
+  YARN_VERSION: 4.7.0
 
 jobs:
   setup:
-    name: 📦 Install
+    name: 📦 Install dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -22,23 +22,22 @@ jobs:
       - name: 🔧 Enable Corepack
         run: corepack enable
 
-      - name: ⚙️ Use project Yarn version
-        run: corepack prepare yarn@4.7.0 --activate
+      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
+      - name: ⚙️ Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{env.NODE_VERSION}}
-          cache: 'yarn'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
 
-      - name: 📦 Установка зависимостей
+      - name: 📦 Install dependencies
         run: yarn install --immutable
 
-
-      - name: 📦 Сохранение проекта как артефакт
+      - name: 💾 Save full project as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: project-source
+          name: project
           path: |
             ./
             .yarn/**
@@ -47,75 +46,67 @@ jobs:
           retention-days: 1
 
   lint:
-    name: ✏️ Lint apps
+    name: ✏️ Lint
     runs-on: ubuntu-latest
     needs: setup
 
     steps:
+      - name: 📦 Restore project
+        uses: actions/download-artifact@v4
+        with:
+          name: project
+          path: .
+
       - name: 🔧 Enable Corepack
         run: corepack enable
 
-      - name: ⚙️ Use project Yarn version
-        run: corepack prepare yarn@4.7.0 --activate
+      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: 📦 Восстановление проекта
-        uses: actions/download-artifact@v4
-        with:
-          name: project-source
-          path: .
-
-      - name: ✏️ Eslint
+      - name: ✏️ Run linters
         run: yarn lint
 
   build:
-    name: 🛠️ Build apps
+    name: 🛠️ Build
     runs-on: ubuntu-latest
     needs: lint
 
     steps:
+      - name: 📦 Restore project
+        uses: actions/download-artifact@v4
+        with:
+          name: project
+          path: .
+
       - name: 🔧 Enable Corepack
         run: corepack enable
 
-      - name: ⚙️ Use project Yarn version
-        run: corepack prepare yarn@4.7.0 --activate
+      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: 📦 Восстановление проекта
-        uses: actions/download-artifact@v4
-        with:
-          name: project-source
-          path: .
-
-      - name: 📦 Установка зависимостей
-        run: yarn install --immutable
-
-      - name: 🛠️ Сборка
-        run: yarn run build
+      - name: 🛠️ Build all
+        run: yarn build
 
   deploy:
-    if: github.ref == 'refs/heads/main' # 🚀 Только при пуше в main
-    name: Deploy
+    name: 🚀 Deploy
     runs-on: ubuntu-latest
     needs: build
-
+    if: github.ref == 'refs/heads/main'
     environment:
       name: production
 
     steps:
+      - name: 📦 Restore project
+        uses: actions/download-artifact@v4
+        with:
+          name: project
+          path: .
+
       - name: 🔧 Enable Corepack
         run: corepack enable
 
-      - name: ⚙️ Use project Yarn version
-        run: corepack prepare yarn@4.7.0 --activate
+      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
+        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: 📦Восстановление проекта
-        uses: actions/download-artifact@v4
-        with:
-          name: product-source
-          path: .
-
-      - name: 🚀 Deploy (заглушка)
-        run: echo "🎯 Добавь сюда команду деплоя, например, SSH, Docker, rsync и т.д."
-
-      # Пример: если понадобятся переменные окружения из GitHub Secrets
-      # - name: 🔐 Set env vars
-      #   run: echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
+      - name: 🚀 Deploy stub
+        run: echo "💥 Добавь свой скрипт деплоя сюда"
