@@ -12,7 +12,7 @@ env: # 🌍 Общие переменные окружения (если пон�
 
 jobs:
   setup:
-    name: 📦 Setup project
+    name: 📦 Install
     runs-on: ubuntu-latest
 
     steps:
@@ -25,8 +25,12 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
           cache: 'yarn'
 
+      - name: 🔧 Enable Corepack
+        run: corepack enable
+
       - name: 📦 Установка зависимостей
         run: yarn install --immutable
+
 
       - name: 📦 Сохранение проекта как артефакт
         uses: actions/upload-artifact@v4
