@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
-import { feedService } from './service.ts'
-import type { FeedPost } from '@feed/shared/models'
+import { onBeforeMount, ref } from 'vue';
+import { feedService } from './service.ts';
+import type { FeedPost } from '@feed/shared/models';
 
-const feed = ref<FeedPost[]>([])
+const feed = ref<FeedPost[]>([]);
 
 onBeforeMount(async () => {
-	feed.value = await feedService.getFeed()
-})
+	feed.value = await feedService.getFeed();
+});
 </script>
 
 <template>

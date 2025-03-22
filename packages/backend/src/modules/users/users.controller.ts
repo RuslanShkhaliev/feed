@@ -5,10 +5,10 @@ import { API_ROUTES } from '@feed/shared/api';
 
 @Controller()
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService) {}
 
-  @Get(API_ROUTES.USERS.ME)
-  public async getUserProfile(@Req() req): Promise<User> {
-    return this.usersService.findById(req.user.id);
-  }
+    @Get(API_ROUTES.USERS.ME)
+    public async getUserProfile(@Req() req): Promise<User> {
+        return this.usersService.findById(req.user.id);
+    }
 }

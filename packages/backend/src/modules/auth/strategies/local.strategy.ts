@@ -6,16 +6,16 @@ import { User } from '@feed/shared/models';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly authService: AuthService) {
-    super({ usernameField: 'email' });
-  }
-
-  async validate(email: string, password: string): Promise<User> {
-    const user = await this.authService.validateUser(email, password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+    constructor(private readonly authService: AuthService) {
+        super({ usernameField: 'email' });
     }
 
-    return user as User;
-  }
+    async validate(email: string, password: string): Promise<User> {
+        const user = await this.authService.validateUser(email, password);
+        if (!user) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+
+        return user as User;
+    }
 }

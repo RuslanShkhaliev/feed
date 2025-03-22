@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ROUTE_PROFILE, useProfileStore } from '../../modules/profile'
-import { ROUTE_FEED } from '../../modules/feed'
-import { computed } from 'vue'
-import { Skeleton } from 'primevue'
-import { ROUTE_FRIENDS } from '../../modules/friends'
+import { ROUTE_PROFILE, useProfileStore } from '@/modules/profile';
+import { ROUTE_FEED } from '@/modules/feed';
+import { computed } from 'vue';
+import { Skeleton } from 'primevue';
+import { ROUTE_FRIENDS } from '@/modules/friends';
 
-const profileStore = useProfileStore()
+const profileStore = useProfileStore();
 
-const isLoading = computed(() => !profileStore.user)
+const isLoading = computed(() => !profileStore.user);
 const sidebarNav = computed(() => {
 	return [
 		{
@@ -22,8 +22,8 @@ const sidebarNav = computed(() => {
 			to: { name: ROUTE_FRIENDS },
 			text: 'Друзья',
 		},
-	]
-})
+	];
+});
 </script>
 
 <template>

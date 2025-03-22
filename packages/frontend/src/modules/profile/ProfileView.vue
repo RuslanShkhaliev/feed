@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { Button, Skeleton, Textarea } from 'primevue'
-import { Form } from '@primevue/forms'
-import { computed, ref } from 'vue'
-import { profileService } from './service.ts'
-import { useProfileStore } from './store.ts'
-import { useAsyncState } from '@vueuse/core'
-import { CreatePostSchema } from '@feed/shared/models'
+import { Button, Skeleton, Textarea } from 'primevue';
+import { Form } from '@primevue/forms';
+import { computed, ref } from 'vue';
+import { profileService } from './service.ts';
+import { useProfileStore } from './store.ts';
+import { useAsyncState } from '@vueuse/core';
+import { CreatePostSchema } from '@feed/shared/models';
 
-const profileStore = useProfileStore()
-const post = ref('')
-const posts = computed(() => profileStore.posts)
+const profileStore = useProfileStore();
+const post = ref('');
+const posts = computed(() => profileStore.posts);
 const startCreating = () => {
-	isCreating.value = true
-}
+	isCreating.value = true;
+};
 // TODO: добавить функционал черновик
 const createPost = async (): Promise<void> => {
 	await profileService.createPost(
@@ -20,16 +20,16 @@ const createPost = async (): Promise<void> => {
 			content: post.value,
 			images: [],
 		}),
-	)
-	post.value = ''
-	isCreating.value = false
-}
-const isCreating = ref(false)
+	);
+	post.value = '';
+	isCreating.value = false;
+};
+const isCreating = ref(false);
 
 const { isLoading: postLoading } = useAsyncState(profileService.getPosts(), null, {
 	immediate: true,
 	onError: (e) => console.error(e),
-})
+});
 </script>
 
 <template>

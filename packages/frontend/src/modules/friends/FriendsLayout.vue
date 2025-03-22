@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Card } from 'primevue'
-import { useRoute, useRouter } from 'vue-router'
-import { computed, onMounted, ref, watch } from 'vue'
-import FriendsView from './FriendsView.vue'
-import { friendsService } from './service.ts'
-import type { User } from '@feed/shared/models'
-import { FriendsType } from '@feed/shared/enums'
+import { Card } from 'primevue';
+import { useRoute, useRouter } from 'vue-router';
+import { computed, onMounted, ref, watch } from 'vue';
+import FriendsView from './FriendsView.vue';
+import { friendsService } from './service.ts';
+import type { User } from '@feed/shared/models';
+import { FriendsType } from '@feed/shared/enums';
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 const routes = {
 	[FriendsType.All]: {
@@ -39,25 +39,25 @@ const routes = {
 			text: 'Рекомендованные',
 		},
 	},
-}
+};
 
 const activeTab = computed<FriendsType>(
 	() => (route.query.section as FriendsType) || FriendsType.All,
-)
+);
 
-onMounted(() => {
-	router.replace({ query: { section: activeTab.value } })
-})
+onMounted(async () => {
+	await router.replace({ query: { section: activeTab.value } });
+});
 
-const friends = ref<User[]>([])
+const friends = ref<User[]>([]);
 
 watch(
 	activeTab,
 	async (tab) => {
-		await friendsService.getFriends(tab)
+		await friendsService.getFriends(tab);
 	},
 	{ immediate: true },
-)
+);
 </script>
 
 <template>
