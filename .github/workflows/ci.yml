@@ -19,16 +19,16 @@ jobs:
       - name: 📥 Checkout репозитория
         uses: actions/checkout@v4
 
+      - name: 🔧 Enable Corepack & prepare Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
       - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-
-      - name: 🔧 Enable Corepack & prepare Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: 📦 Установка зависимостей
         run: yarn install --immutable
@@ -52,16 +52,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 🔧 Enable Corepack & prepare Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-
-      - name: 🧠 Enable Corepack & Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: ♻️ Restore cache
         uses: actions/cache@v4
@@ -84,16 +84,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 🧠 Enable Corepack & Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-
-      - name: 🧠 Enable Corepack & Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: ♻️ Restore cache
         uses: actions/cache@v4
@@ -120,16 +120,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 🧠 Enable Corepack & Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-
-      - name: 🧠 Enable Corepack & Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
       - name: ♻️ Restore cache
         uses: actions/cache@v4
