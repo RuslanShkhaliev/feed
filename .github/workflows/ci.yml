@@ -39,7 +39,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: project-source
-          path: .
+          path: |
+            ./
+            .yarn/**
+            .yarnrc.yml
           retention-days: 1
 
   lint:
