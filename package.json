@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "apps/*",
       "packages/*"
     ],
     "hoistingLimits": {
@@ -10,11 +11,12 @@
     }
   },
   "scripts": {
-    "dev": "yarn workspace @feed/frontend dev & yarn workspace @feed/backend dev",
+    "dev": "yarn workspace frontend dev & yarn workspace backend dev",
     "build": "yarn workspaces foreach --all --topological run build",
     "lint": "yarn workspaces foreach --all run lint",
-    "format": "prettier --write .",
-    "prepare": "husky install"
+    "lint:fix": "yarn workspaces foreach --all run lint:fix",
+    "prepare": "husky install",
+    "postinstall": "yarn workspace @feed/shared run build & yarn workspace backend run prisma:generate"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
@@ -26,7 +28,9 @@
     "eslint-plugin-import": "~2.29.1",
     "eslint-plugin-n": "~16.6.2",
     "eslint-plugin-prettier": "~5.1.3",
+    "husky": "^9.1.7",
     "lerna": "^8.2.1",
+    "lint-staged": "^15.5.0",
     "typescript-eslint": "^8.27.0",
     "workspace": "^0.0.1-preview.2"
   }

@@ -22,7 +22,7 @@ import {
     type AuthResponse,
     RefreshTokenResponse,
 } from '@feed/shared/models';
-import { COOKIE_OPTIONS, REFRESH_KEY } from '@/modules/auth/constants';
+import { COOKIE_OPTIONS, REFRESH_KEY } from '@/modules/auth/index';
 
 @Controller()
 export class AuthController {

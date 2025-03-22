@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AuthForm, { type AuthFormData, FormType } from './AuthForm.vue';
-import { authService } from './service';
+import { authService } from './service.ts';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
-import { ROUTE_LOGIN, ROUTE_REGISTRATION } from './routes';
-import { TOAST_KEY_APP, useToast } from '@/plugins/toast';
+import { ROUTE_LOGIN, ROUTE_REGISTRATION } from './routes.ts';
+import { TOAST_KEY_APP, useToast } from '@/plugins/toast.ts';
 
 const route = useRoute();
 const isLoginRoute = computed(() => route.name === ROUTE_LOGIN);

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from 'primevue';
-import { authService } from '../../modules/auth/service.ts';
-import { useProfileStore } from '../../modules/profile';
+import { authService } from '@/modules/auth';
+import { useProfileStore } from '@/modules/profile';
 
 const { user } = useProfileStore();
 const logout = () => {

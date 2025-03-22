@@ -1,16 +1,15 @@
 {
-	"name": "@feed/frontend",
+	"name": "frontend",
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite --host",
-		"build": "run-p type-check \"build-only {@}\" --",
 		"preview": "vite preview",
 		"test:unit": "vitest",
-		"build-only": "vite build",
+		"build": "vite build",
 		"type-check": "vue-tsc --build",
-		"lint": "eslint  --fix",
-		"format": "prettier --write src"
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix"
 	},
 	"dependencies": {
 		"@feed/shared": "workspace:*",

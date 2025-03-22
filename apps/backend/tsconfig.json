@@ -1,13 +1,19 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src", "global.d.ts"],
-  "exclude": ["node_modules", "dist"],
+  "include": [
+    "src",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "removeComments": true,
     "outDir": "./dist",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
     }

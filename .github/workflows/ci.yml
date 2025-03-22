@@ -1,39 +1,91 @@
 name: CI
 
+# 🔁 Срабатывает при пуше в ветки dev и main
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - dev
+      - main
+
+env: # 🌍 Общие переменные окружения (если понадобятся)
+  NODE_VERSION: 20
 
 jobs:
-  install-and-build:
+  lint:
+    name: Lint apps
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧾 Checkout repository
-        uses: actions/checkout@v3
+      - name: 📥 Checkout репозитория
+        uses: actions/checkout@v4
 
-      - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v3
+      - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: 📥 Enable Corepack and Yarn 4
-        run: |
-          corepack enable
-          yarn --version
-          yarn install
+      - name: 📦 Установка зависимостей (иммутабельная установка)
+        run: yarn install --immutable
 
-      - name: 🧱 Build Shared
-        run: yarn workspace @feed/shared build
+      - name: ✏️ Линт backend
+        run: yarn workspace backend run lint
 
-      - name: 🔧 Build Backend
-        run: yarn workspace @feed/backend build
+      - name: ✏️ Линт frontend
+        run: yarn workspace frontend run lint
 
-      - name: 🖼️ Build Frontend
-        run: yarn workspace @feed/frontend build
+  build:
+    name: Build apps
+    runs-on: ubuntu-latest
+    needs: lint # ⚠️ Выполнится только после lint
 
-      - name: 🧪 Run tests
-        run: yarn workspaces foreach run test || echo "No tests yet 😅"
+    steps:
+      - name: 📥 Checkout репозитория
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 📦 Установка зависимостей
+        run: yarn install --immutable
+
+      - name: 🛠️ Сборка shared
+        run: yarn workspace shared run build
+
+      - name: 🛠️ Сборка backend
+        run: yarn workspace backend run build
+
+      - name: 🛠️ Сборка frontend
+        run: yarn workspace frontend run build
+
+  deploy:
+    if: github.ref == 'refs/heads/main' # 🚀 Только при пуше в main
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build # ⏳ Выполнится только после успешной сборки
+
+    environment:
+      name: production # 🌐 Можешь использовать GitHub Environments
+
+    steps:
+      - name: 📥 Checkout репозитория
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 📦 Установка зависимостей
+        run: yarn install --immutable
+
+      - name: 🚀 Deploy (заглушка)
+        run: echo "🎯 Добавь сюда команду деплоя, например, SSH, Docker, rsync и т.д."
+
+      # Пример: если понадобятся переменные окружения из GitHub Secrets
+      # - name: 🔐 Set env vars
+      #   run: echo "API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
