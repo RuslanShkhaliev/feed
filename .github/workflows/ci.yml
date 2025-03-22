@@ -63,6 +63,9 @@ jobs:
       - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
         run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
+      - name: 📦 Установка зависимостей
+        run: yarn install --immutable
+
       - name: ✏️ Run linters
         run: yarn lint
 
@@ -83,6 +86,8 @@ jobs:
 
       - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
         run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+      - name: 📦 Установка зависимостей
+        run: yarn install --immutable
 
       - name: 🛠️ Build all
         run: yarn build
@@ -107,6 +112,8 @@ jobs:
 
       - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
         run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+      - name: 📦 Установка зависимостей
+        run: yarn install --immutable
 
       - name: 🚀 Deploy stub
         run: echo "💥 Добавь свой скрипт деплоя сюда"
