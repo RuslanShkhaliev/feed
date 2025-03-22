@@ -19,31 +19,30 @@ jobs:
       - name: 📥 Checkout репозитория
         uses: actions/checkout@v4
 
-      - name: 🔧 Enable Corepack
-        run: corepack enable
-
-      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
-        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-
-      - name: ⚙️ Setup Node.js ${{ env.NODE_VERSION }}
+      - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: 📦 Install dependencies
+      - name: 🔧 Enable Corepack & prepare Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+      - name: 📦 Установка зависимостей
         run: yarn install --immutable
 
-      - name: 💾 Save full project as artifact
-        uses: actions/upload-artifact@v4
+      - name: 💾 Cache Yarn & node_modules
+        uses: actions/cache@v4
         with:
-          name: project
           path: |
-            ./
-            .yarn/**
-            .yarnrc.yml
-            .pnp.*
-          retention-days: 1
+            .yarn/cache
+            .yarn/unplugged
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
   lint:
     name: ✏️ Lint
@@ -51,23 +50,31 @@ jobs:
     needs: setup
 
     steps:
-      - name: 📦 Restore project
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          name: project
-          path: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
 
-      - name: 🔧 Enable Corepack
-        run: corepack enable
+      - name: 🧠 Enable Corepack & Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
-        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+      - name: ♻️ Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-      - name: 📦 Установка зависимостей
-        run: yarn install --immutable
-
-      - name: ✏️ Run linters
-        run: yarn lint
+      - run: yarn lint
 
   build:
     name: 🛠️ Build
@@ -75,45 +82,65 @@ jobs:
     needs: lint
 
     steps:
-      - name: 📦 Restore project
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          name: project
-          path: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
 
-      - name: 🔧 Enable Corepack
-        run: corepack enable
+      - name: 🧠 Enable Corepack & Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
-        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-      - name: 📦 Установка зависимостей
-        run: yarn install --immutable
+      - name: ♻️ Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-      - name: 🛠️ Build all
-        run: yarn build
+      - run: yarn build
 
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/main'
+
     environment:
       name: production
 
     steps:
-      - name: 📦 Restore project
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          name: project
-          path: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
 
-      - name: 🔧 Enable Corepack
-        run: corepack enable
+      - name: 🧠 Enable Corepack & Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: ⚙️ Use Yarn ${{ env.YARN_VERSION }}
-        run: corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-      - name: 📦 Установка зависимостей
-        run: yarn install --immutable
+      - name: ♻️ Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: 🚀 Deploy stub
-        run: echo "💥 Добавь свой скрипт деплоя сюда"
+        run: echo "Добавь свой скрипт деплоя сюда"
