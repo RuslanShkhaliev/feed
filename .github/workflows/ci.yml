@@ -19,14 +19,14 @@ jobs:
       - name: 📥 Checkout репозитория
         uses: actions/checkout@v4
 
+      - name: 🔧 Enable Corepack
+        run: corepack enable
+
       - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{env.NODE_VERSION}}
           cache: 'yarn'
-
-      - name: 🔧 Enable Corepack
-        run: corepack enable
 
       - name: 📦 Установка зависимостей
         run: yarn install --immutable
