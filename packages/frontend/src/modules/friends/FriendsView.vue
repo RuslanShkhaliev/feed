@@ -1,47 +1,47 @@
 <script setup lang="ts">
-import { ROUTE_USER_PROFILE } from './routes.ts'
-import { FriendsType } from '@feed/shared/enums'
-import { Button } from 'primevue'
-import { friendsService } from './service.ts'
-import { useFriendsStore } from './store.ts'
-import { computed } from 'vue'
-import type { PublicUser } from '@feed/shared/models'
+import { ROUTE_USER_PROFILE } from './routes.ts';
+import { FriendsType } from '@feed/shared/enums';
+import { Button } from 'primevue';
+import { friendsService } from './service.ts';
+import { useFriendsStore } from './store.ts';
+import { computed } from 'vue';
+import type { PublicUser } from '@feed/shared/models';
 
 const props = defineProps<{
-	viewType: FriendsType
-	title: string
-}>()
+	viewType: FriendsType;
+	title: string;
+}>();
 
 const actions = {
 	[FriendsType.All]: {
 		text: 'Удалить из друзей',
 		action: async (id: number) => {
-			await friendsService.unfollowUser(id)
+			await friendsService.unfollowUser(id);
 		},
 	},
 	[FriendsType.Following]: {
 		text: 'Отписаться',
 		action: async (id: number) => {
-			await friendsService.unfollowUser(id)
+			await friendsService.unfollowUser(id);
 		},
 	},
 	[FriendsType.Subscribers]: {
 		text: 'Подписаться',
 		action: async (id: number) => {
-			await friendsService.followUser(id)
+			await friendsService.followUser(id);
 		},
 	},
 	[FriendsType.Recommended]: {
 		text: 'Подписаться',
 		action: async (id: number) => {
-			await friendsService.followUser(id)
+			await friendsService.followUser(id);
 		},
 	},
-}
+};
 
-const friendsStore = useFriendsStore()
+const friendsStore = useFriendsStore();
 
-const friends = computed<PublicUser[]>(() => friendsStore.friends[props.viewType])
+const friends = computed<PublicUser[]>(() => friendsStore.friends[props.viewType]);
 </script>
 
 <template>

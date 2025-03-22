@@ -1,1 +1,1 @@
-export * from './isPublic'
+export * from './isPublic';

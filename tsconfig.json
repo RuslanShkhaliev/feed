@@ -1,23 +1,20 @@
 {
-  "include": ["packages"],
-  "exclude": ["node_modules", "dist"],
-  "compilerOptions": {
-    "lib": ["ESNext"],
-    "strict": true,
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-  }
+	"include": ["packages"],
+	"exclude": ["node_modules", "dist"],
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"strict": true,
+		"incremental": true,
+		"skipLibCheck": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"strictBindCallApply": false,
+		"noFallthroughCasesInSwitch": false,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"baseUrl": "."
+	}
 }

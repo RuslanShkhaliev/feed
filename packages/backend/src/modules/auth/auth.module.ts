@@ -9,16 +9,16 @@ import { JWT_SECRET } from './constants';
 import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
-  imports: [
-    UsersModule,
-    PassportModule,
-    JwtModule.register({
-      secret: JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
-  exports: [JwtModule],
-  providers: [AuthService, JwtStrategy, LocalStrategy],
-  controllers: [AuthController],
+    imports: [
+        UsersModule,
+        PassportModule,
+        JwtModule.register({
+            secret: JWT_SECRET,
+            signOptions: { expiresIn: '1h' },
+        }),
+    ],
+    exports: [JwtModule],
+    providers: [AuthService, JwtStrategy, LocalStrategy],
+    controllers: [AuthController],
 })
 export class AuthModule {}

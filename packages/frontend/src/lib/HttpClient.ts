@@ -1,92 +1,78 @@
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios'
-import axios from 'axios'
-
-export interface HttpClientOptions {
-  headers?: Record<string, string>
-  baseURL?: string
-  beforeRequest?: (context: RequestOptions) => Promise<void> | void
-  afterResponse?: (context: {
-    request: RequestOptions
-    response: Response
-    retry: (count?: number) => void
-  }) => Promise<void> | void
-}
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
+import axios from 'axios';
 
 enum HttpMethods {
-  Get = 'get',
-  Post = 'post',
-  Put = 'put',
-  Delete = 'delete',
-  Patch = 'patch',
+	Get = 'get',
+	Post = 'post',
+	Put = 'put',
+	Delete = 'delete',
+	Patch = 'patch',
 }
 
-interface RequestOptions extends RequestInit {
-  headers: Headers
-}
 export class AxiosClient {
-  static create(options?: CreateAxiosDefaults): AxiosClient {
-    const axiosClient = axios.create(options)
+	static create(options?: CreateAxiosDefaults): AxiosClient {
+		const axiosClient = axios.create(options);
 
-    return new AxiosClient(axiosClient)
-  }
+		return new AxiosClient(axiosClient);
+	}
 
-  public readonly axios: AxiosInstance
+	public readonly axios: AxiosInstance;
 
-  constructor(httpClient: AxiosInstance) {
-    this.axios = httpClient
-  }
+	constructor(httpClient: AxiosInstance) {
+		this.axios = httpClient;
+	}
 
-  public async request<T = any, R = AxiosResponse<T>, D = any>(
-    url: string,
-    options: AxiosRequestConfig<D> = {},
-  ): Promise<R> {
-    const response = await this.axios.request<T, R, D>({
-      url,
-      ...options,
-    })
+	public async request<T, R = AxiosResponse<T>, D>(
+		url: string,
+		options: AxiosRequestConfig<D> = {},
+	): Promise<R> {
+		const response = await this.axios.request<T, R, D>({
+			url,
+			...options,
+		});
 
-    return response
-  }
+		return response;
+	}
 
-  public async get<T = any, R = AxiosResponse<T>, D = any>(
-    url: string,
-    config?: AxiosRequestConfig<D>,
-  ): Promise<R> {
-    return this.request(url, {
-      method: HttpMethods.Get,
-      ...config,
-    })
-  }
+	public async get<T, R = AxiosResponse<T>, D>(
+		url: string,
+		config?: AxiosRequestConfig<D>,
+	): Promise<R> {
+		return this.request(url, {
+			method: HttpMethods.Get,
+			...config,
+		});
+	}
 
-  public async post<T = any, R = AxiosResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig<D>,
-  ): Promise<R> {
-    return this.request(url, {
-      method: HttpMethods.Post,
-      data,
-      ...config,
-    })
-  }
-  public async patch<T = any, R = AxiosResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig<D>,
-  ): Promise<R> {
-    return this.request(url, {
-      method: HttpMethods.Patch,
-      data,
-      ...config,
-    })
-  }
-  public async delete<T = any, R = AxiosResponse<T>, D = any>(
-    url: string,
-    config?: AxiosRequestConfig<D>,
-  ): Promise<R> {
-    return this.request(url, {
-      method: HttpMethods.Delete,
-      ...config,
-    })
-  }
+	public async post<T, R = AxiosResponse<T>, D>(
+		url: string,
+		data?: D,
+		config?: AxiosRequestConfig<D>,
+	): Promise<R> {
+		return this.request(url, {
+			method: HttpMethods.Post,
+			data,
+			...config,
+		});
+	}
+	public async patch<T, R = AxiosResponse<T>, D >(
+		url: string,
+		data?: D,
+		config?: AxiosRequestConfig<D>,
+	): Promise<R> {
+		return this.request(url, {
+			method: HttpMethods.Patch,
+			data,
+			...config,
+		});
+	}
+	public async delete<T, R = AxiosResponse<T>, D>(
+		url: string,
+		config?: AxiosRequestConfig<D>,
+	): Promise<R> {
+		return this.request(url, {
+			method: HttpMethods.Delete,
+			...config,
+		});
+	}
 }

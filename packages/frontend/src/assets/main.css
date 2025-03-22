@@ -1,7 +1,9 @@
-@import "./tailwind.css";
+@import './tailwind.css';
 
-html, body, #app {
-    height: 100%;
+html,
+body,
+#app {
+	height: 100%;
 }
 
 body {

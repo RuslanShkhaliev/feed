@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { onBeforeMount, ref } from 'vue'
-import { apiFriends } from './api.ts'
-import type { PublicUser } from '@feed/shared/models'
+import { useRoute } from 'vue-router';
+import { onBeforeMount, ref } from 'vue';
+import { apiFriends } from './api.ts';
+import type { PublicUser } from '@feed/shared/models';
 
-const route = useRoute()
+const route = useRoute();
 
-const profileData = ref<PublicUser | null>(null)
+const profileData = ref<PublicUser | null>(null);
 
 onBeforeMount(async () => {
-	profileData.value = await apiFriends.getFriendById(Number(route.params.id))
-})
+	profileData.value = await apiFriends.getFriendById(Number(route.params.id));
+});
 </script>
 
 <template>

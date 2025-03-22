@@ -1,5 +1,5 @@
-import { z } from 'zod'
-import { type User } from './user'
+import { z } from 'zod';
+import { type User } from './user';
 
 export const AuthCredentialsSchema = z.object({
     email: z.string().email(),
@@ -9,7 +9,7 @@ export const AuthCredentialsSchema = z.object({
 export type AuthCredentials = z.infer<typeof AuthCredentialsSchema>;
 
 export interface AuthResponse {
-    user: User
-    accessToken: string
+    user: User;
+    accessToken: string;
 }
-export type RefreshTokenResponse = string
+export type RefreshTokenResponse = string;

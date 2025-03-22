@@ -5,5 +5,5 @@ export const formatRoute = <Params extends Record<string, string | number>>(
 	return Object.entries(params).reduce(
 		(path, [key, value]) => path.replaceAll(`:${key}`, String(value)),
 		route,
-	)
-}
+	);
+};

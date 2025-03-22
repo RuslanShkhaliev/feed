@@ -1,49 +1,49 @@
-import { defineStore } from 'pinia'
-import { FriendsType } from '@feed/shared/enums'
-import { computed, reactive } from 'vue'
-import type { PublicUser } from '@feed/shared/models'
+import { defineStore } from 'pinia';
+import { FriendsType } from '@feed/shared/enums';
+import { computed, reactive } from 'vue';
+import type { PublicUser } from '@feed/shared/models';
 
 export const useFriendsStore = defineStore('friends', () => {
-	const friendsStateMap = reactive<Map<PublicUser['id'], PublicUser>>(new Map())
+	const friendsStateMap = reactive<Map<PublicUser['id'], PublicUser>>(new Map());
 
 	const friends = computed(() => {
 		const dict = Object.values(FriendsType).reduce(
 			(acc, key) => {
-				Reflect.set(acc, key, [])
+				Reflect.set(acc, key, []);
 
-				return acc
+				return acc;
 			},
 			{} as Record<FriendsType, PublicUser[]>,
-		)
+		);
 		Array.from(friendsStateMap.values()).forEach((user) => {
-			let status: FriendsType = FriendsType.Recommended
+			let status: FriendsType = FriendsType.Recommended;
 			if (user.isFollowing && user.isSubscriber) {
-				status = FriendsType.All
+				status = FriendsType.All;
 			} else if (user.isSubscriber) {
-				status = FriendsType.Subscribers
+				status = FriendsType.Subscribers;
 			} else if (user.isFollowing) {
-				status = FriendsType.Following
+				status = FriendsType.Following;
 			}
 
-			dict[status].push(user)
-		})
+			dict[status].push(user);
+		});
 
-		return dict
-	})
+		return dict;
+	});
 
 	const setFriends = (users: PublicUser[]): void => {
 		users.forEach((user) => {
-			friendsStateMap.set(user.id, user)
-		})
-	}
+			friendsStateMap.set(user.id, user);
+		});
+	};
 
 	const addFriend = (user: PublicUser): void => {
-		friendsStateMap.set(user.id, user)
-	}
+		friendsStateMap.set(user.id, user);
+	};
 
 	const reset = () => {
-		friendsStateMap.clear()
-	}
+		friendsStateMap.clear();
+	};
 
 	return {
 		friendsStateMap,
@@ -51,5 +51,5 @@ export const useFriendsStore = defineStore('friends', () => {
 		setFriends,
 		addFriend,
 		reset,
-	}
-})
+	};
+});

@@ -1,14 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "ESNext",
-    "lib": ["DOM", "ESNext"],
-    "outDir": "./dist/browser",
-    "declaration": false,
-    "baseUrl": "./"
-  }
+	"extends": "../../tsconfig.json",
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"],
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"target": "ESNext",
+		"lib": ["DOM", "ESNext"],
+		"outDir": "./dist/browser",
+		"declaration": false,
+		"baseUrl": "./"
+	}
 }

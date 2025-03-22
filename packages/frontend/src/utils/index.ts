@@ -1,1 +1,1 @@
-export * from './formatRoute.ts'
+export * from './formatRoute.ts';
