@@ -10,102 +10,54 @@ env:
   NODE_VERSION: 22
   YARN_VERSION: 4.7.0
 
+x-setup-steps: &setup-steps
+  - uses: actions/checkout@v4
+
+  - name: 🧠 Enable Corepack & Yarn
+    run: |
+      corepack enable
+      corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+  - name: ⚙️ Setup Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: ${{ env.NODE_VERSION }}
+      cache: yarn
+
+  - name: ♻️ Restore cache
+    uses: actions/cache@v4
+    with:
+      path: |
+        .yarn/cache
+        .yarn/unplugged
+        node_modules
+      key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-yarn-
+
 jobs:
   setup:
     name: 📦 Install dependencies
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout репозитория
-        uses: actions/checkout@v4
-
-      - name: 🔧 Enable Corepack & prepare Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-
-      - name: ⚙️ Установка Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: 📦 Установка зависимостей
+      - <<: *setup-steps
+      - name: 📦 Install dependencies
         run: yarn install --immutable
-
-      - name: 💾 Cache Yarn & node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-            node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
 
   lint:
     name: ✏️ Lint
     runs-on: ubuntu-latest
     needs: setup
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: 🔧 Enable Corepack & prepare Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: ♻️ Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-            node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
+      - <<: *setup-steps
       - run: yarn lint
 
   build:
     name: 🛠️ Build
     runs-on: ubuntu-latest
     needs: lint
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: 🧠 Enable Corepack & Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: ♻️ Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-            node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
+      - <<: *setup-steps
       - run: yarn build
 
   deploy:
@@ -113,34 +65,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/main'
-
     environment:
       name: production
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: 🧠 Enable Corepack & Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
-
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: ♻️ Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .yarn/cache
-            .yarn/unplugged
-            node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
+      - <<: *setup-steps
       - name: 🚀 Deploy stub
-        run: echo "Добавь свой скрипт деплоя сюда"
+        run: echo "💥 Добавь свой скрипт деплоя сюда"
