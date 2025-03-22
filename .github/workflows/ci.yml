@@ -43,6 +43,7 @@ jobs:
             ./
             .yarn/**
             .yarnrc.yml
+            .pnp.*
           retention-days: 1
 
   lint:
