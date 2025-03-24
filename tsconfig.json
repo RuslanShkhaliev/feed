@@ -9,6 +9,8 @@
 		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitAny": false,
+		"isolatedModules": true,
+		"allowJs": true,
 		"strictBindCallApply": false,
 		"noFallthroughCasesInSwitch": false,
 		"allowSyntheticDefaultImports": true,
