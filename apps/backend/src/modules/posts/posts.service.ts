@@ -32,11 +32,11 @@ export class PostsService {
         return this.prismaService.post.delete({ where: { id, authorId } });
     }
 
-    public async getFeed(id: number): Promise<FeedPost[]> {
+    public async getFeed(userId: number): Promise<FeedPost[]> {
         return this.prismaService.post.findMany({
             where: {
                 author: {
-                    following: { some: { subscriberId: id } },
+                    following: { some: { subscriberId: userId } },
                 },
                 published: { not: { equals: false } },
             },
