@@ -28,35 +28,45 @@ const isCreating = ref(false);
 
 const { isLoading: postLoading } = useAsyncState(profileService.getPosts(), null, {
 	immediate: true,
-	onError: (e) => console.error(e),
+	onError: (e) => { console.error(e); },
 });
 </script>
 
 <template>
-	<div class="flex flex-col gap-4">
-		<Button @click="startCreating"> Создать пост </Button>
-		<Form @submit="createPost" v-if="isCreating" class="flex flex-col gap-4">
-			<Textarea v-model="post"></Textarea>
-			<Button type="submit">Опубликовать</Button>
-		</Form>
+  <div class="flex flex-col gap-4">
+    <Button @click="startCreating"> Создать пост </Button>
+    <Form v-if="isCreating"
+          class="flex flex-col gap-4"
+          @submit="createPost"
+    >
+      <Textarea v-model="post"/>
+      <Button type="submit">Опубликовать</Button>
+    </Form>
 
-		<div>
-			<div class="flex flex-col gap-3" v-if="postLoading">
-				<div v-for="n in 5" :key="n" class="flex flex-col gap-1">
-					<Skeleton height="1rem" />
-					<Skeleton height="150px"></Skeleton>
-				</div>
-			</div>
-			<template v-else>
-				<div v-for="post in posts" :key="post.id">
-					<p>
-						{{ post.content }}
-					</p>
-					<span>{{ post.createdAt }}</span>
-				</div>
-			</template>
-		</div>
-	</div>
+    <div>
+      <div v-if="postLoading"
+           class="flex flex-col gap-3"
+      >
+        <div v-for="n in 5"
+             :key="n"
+             class="flex flex-col gap-1"
+        >
+          <Skeleton height="1rem" />
+          <Skeleton height="150px"/>
+        </div>
+      </div>
+      <template v-else>
+        <div v-for="post in posts"
+             :key="post.id"
+        >
+          <p>
+            {{ post.content }}
+          </p>
+          <span>{{ post.createdAt }}</span>
+        </div>
+      </template>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

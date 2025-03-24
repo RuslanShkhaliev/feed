@@ -2,6 +2,7 @@
 	"name": "frontend",
 	"version": "1.0.0",
 	"type": "module",
+	"private": true,
 	"scripts": {
 		"dev": "vite --host",
 		"preview": "vite preview",
@@ -45,7 +46,6 @@
 		"vite": "^6.1.0",
 		"vite-plugin-vue-devtools": "^7.7.2",
 		"vitest": "^3.0.5",
-		"vue-tsc": "^2.2.2",
-		"workspace": "^0.0.1-preview.2"
+		"vue-tsc": "^2.2.2"
 	}
 }

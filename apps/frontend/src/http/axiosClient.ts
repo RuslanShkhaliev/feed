@@ -1,7 +1,11 @@
 import { TOKEN_STORAGE_KEY, useAuthStore } from '@/modules/auth/store.ts';
 import { useLocalStorage } from '@vueuse/core';
 import axios, { AxiosError } from 'axios';
-import { AxiosClient } from '@/lib/HttpClient.ts';
+
+
+enum HTTP_ERROR {
+	UNAUTHORIZED = 401,
+}
 
 const defaultClientOptions = {
 	baseURL: import.meta.env.VITE_API_URL,
@@ -10,15 +14,8 @@ const defaultClientOptions = {
 		Access: 'application/json',
 	},
 };
-// export const httpClient = FetchHttpClient.create({
-//   ...httpOptions,
-// })
 
-enum HTTP_ERROR {
-	UNAUTHORIZED = 401,
-}
-
-export const axiosClient = AxiosClient.create({
+export const axiosClient = axios.create({
 	...defaultClientOptions,
 });
 
@@ -30,13 +27,13 @@ export const protectedAxiosClient = axios.create({
 protectedAxiosClient.interceptors.request.use(
 	(config) => {
 		const token = useLocalStorage(TOKEN_STORAGE_KEY, '');
-		if (token) {
+		if (token.value) {
 			config.headers.set('Authorization', `Bearer ${token.value}`);
 		}
 
 		return config;
 	},
-	(error) => Promise.reject(error),
+	(error) => error,
 );
 
 protectedAxiosClient.interceptors.response.use(
@@ -69,13 +66,13 @@ const refreshAccessToken = async (): Promise<string> => {
 	const { setToken, removeToken } = useAuthStore();
 
 	try {
-		const { data } = await axiosClient.post<{ accessToken: string }>('/auth/refresh', {
+		const { data: accessToken } = await axiosClient.post<string>('/auth/refresh', {
 			credentials: 'include',
 		});
 
-		setToken(data.accessToken);
+		setToken(accessToken);
 
-		return data.accessToken;
+		return accessToken;
 	} catch (err: unknown) {
 		removeToken();
 		if (err instanceof AxiosError) {

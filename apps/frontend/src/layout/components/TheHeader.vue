@@ -10,15 +10,15 @@ const logout = () => {
 </script>
 
 <template>
-	<header class="flex justify-center w-full">
-		<div class="flex w-full max-w-[1240px] justify-between items-center py-3">
-			<div>
-				<a>Logo</a>
-			</div>
-			<div>
-				<div>{{ user.email }}</div>
-				<Button @click="logout">Logout</Button>
-			</div>
-		</div>
-	</header>
+  <header class="flex justify-center w-full">
+    <div class="flex w-full max-w-[1240px] justify-between items-center py-3">
+      <div>
+        <a>Logo</a>
+      </div>
+      <div>
+        <div>{{ user.email }}</div>
+        <Button @click="logout">Logout</Button>
+      </div>
+    </div>
+  </header>
 </template>

@@ -34,10 +34,10 @@ export const router = createRouter({
 router.beforeEach(async (to, from, next) => {
 	const { isAuthenticated } = useAuthStore();
 	if (!isAuthenticated && isPrivateRoute(to.matched)) {
-		return next({ name: ROUTE_LOGIN });
+		next({ name: ROUTE_LOGIN }); return;
 	}
 	if (isAuthenticated && isPublicRoute(to.matched)) {
-		return next({ name: ROUTE_FEED });
+		next({ name: ROUTE_FEED }); return;
 	}
 	next();
 });

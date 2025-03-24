@@ -12,7 +12,7 @@ export const useWatchLogout = () => {
 		() => authStore.isAuthenticated,
 		(isAuth: boolean) => {
 			if (!isAuth) {
-				[authStore, friendsStore, profileStore].forEach((store) => store.reset());
+				[authStore, friendsStore, profileStore].forEach((store) => { store.reset(); });
 			}
 		},
 		{ immediate: true },

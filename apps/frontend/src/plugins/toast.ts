@@ -1,4 +1,4 @@
-import { type ToastMessageOptions, type ToastServiceMethods } from 'primevue';
+import { type ToastMessageOptions } from 'primevue';
 import { type App, inject, type Plugin } from 'vue';
 
 type ToastAction = (message: Omit<ToastMessageOptions, 'severity'>) => void;
@@ -13,7 +13,7 @@ interface ToastApp {
 }
 export const ToastPlugin: Plugin = {
 	install(app: App) {
-		const _toast = app.config.globalProperties.$toast as ToastServiceMethods;
+		const _toast = app.config.globalProperties.$toast;
 		const variants = ['success', 'info', 'warn', 'error', 'secondary', 'contrast'];
 
 		const toast = {};

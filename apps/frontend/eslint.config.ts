@@ -16,7 +16,8 @@ export default defineConfigWithVueTs(
 	},
 	...eslintBase,
 	pluginVue.configs['flat/essential'],
-	vueTsConfigs.recommended,
+	vueTsConfigs.strict,
+	vueTsConfigs.stylistic,
 
 	{
 		...pluginVitest.configs.recommended,
@@ -25,7 +26,37 @@ export default defineConfigWithVueTs(
 	skipFormatting,
 	{
 		rules: {
-			'@typescript-eslint/no-unused-vars': 'warn'
+			'vue/multi-word-component-names': 'off',
+			'@typescript-eslint/no-unused-vars': 'warn',
+			"@typescript-eslint/no-non-null-assertion": "warn",
+			'vue/max-attributes-per-line': [
+				'warn',
+				{
+					singleline: 1,
+					multiline: 1,
+				},
+			],
+			'vue/html-self-closing': [
+				'warn',
+				{
+					html: {
+						void: 'always',
+						normal: 'never',
+						component: 'always',
+					},
+					svg: 'always',
+					math: 'always',
+				},
+			],
+			'vue/html-closing-bracket-newline': [
+				'warn',
+				{
+					singleline: 'never',
+					multiline: 'always',
+				},
+			],
+			'vue/html-indent': ['warn', 2],
+			'vue/attributes-order': 'warn',
 		}
 	}
 );

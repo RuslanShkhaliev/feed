@@ -14,23 +14,23 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-	<div>
-		<template v-if="profileData">
-			<div class="flex flex-col gap-3">
-				<span>{{ profileData.name }}</span>
-				<span>{{ profileData.email }}</span>
-			</div>
-			<div>
-				<h2>Posts</h2>
-				<div
-					class="flex flex-col gap-3 border border-solid border-cyan-300"
-					v-for="post in profileData.posts"
-					:key="post.id"
-				>
-					<span>{{ post.id }}</span>
-					<span>{{ post.content }}</span>
-				</div>
-			</div>
-		</template>
-	</div>
+  <div>
+    <template v-if="profileData">
+      <div class="flex flex-col gap-3">
+        <span>{{ profileData.name }}</span>
+        <span>{{ profileData.email }}</span>
+      </div>
+      <div>
+        <h2>Posts</h2>
+        <div
+          v-for="post in profileData.posts"
+          :key="post.id"
+          class="flex flex-col gap-3 border border-solid border-cyan-300"
+        >
+          <span>{{ post.id }}</span>
+          <span>{{ post.content }}</span>
+        </div>
+      </div>
+    </template>
+  </div>
 </template>

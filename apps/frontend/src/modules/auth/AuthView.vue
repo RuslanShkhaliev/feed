@@ -13,7 +13,7 @@ const appToast = useToast();
 const onSubmit = async (data: AuthFormData) => {
 	if (isLoginRoute.value) {
 		try {
-			return await authService.login(data);
+			await authService.login(data); return;
 		} catch (_error) {
 			appToast.info({
 				summary: 'Login failed',
@@ -21,7 +21,7 @@ const onSubmit = async (data: AuthFormData) => {
 			});
 		}
 	} else {
-		await authService.register(data as Required<AuthFormData>);
+		await authService.register(data);
 	}
 };
 
@@ -36,12 +36,15 @@ const link = computed(() => ({
 </script>
 
 <template>
-	<div>
-		<AuthForm @submit="onSubmit" :view="formType" :key="String(isLoginRoute)" />
-		<RouterLink :to="{ name: link.to }">
-			{{ link.text }}
-		</RouterLink>
-	</div>
+  <div>
+    <AuthForm :key="String(isLoginRoute)"
+              :view="formType"
+              @submit="onSubmit"
+    />
+    <RouterLink :to="{ name: link.to }">
+      {{ link.text }}
+    </RouterLink>
+  </div>
 </template>
 
 <style scoped></style>

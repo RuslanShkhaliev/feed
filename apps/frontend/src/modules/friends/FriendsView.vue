@@ -45,18 +45,20 @@ const friends = computed<PublicUser[]>(() => friendsStore.friends[props.viewType
 </script>
 
 <template>
-	<div>
-		<h1 class="text-2xl">{{ title }}</h1>
-		<div>
-			<div v-for="friend in friends" :key="friend.id">
-				<RouterLink :to="{ name: ROUTE_USER_PROFILE, params: { id: friend.id } }">
-					<p>{{ friend.name }}</p>
-					<p>{{ friend.email }}</p>
-				</RouterLink>
-				<Button @click.stop="actions[viewType].action(friend.id)">{{
-					actions[viewType].text
-				}}</Button>
-			</div>
-		</div>
-	</div>
+  <div>
+    <h1 class="text-2xl">{{ title }}</h1>
+    <div>
+      <div v-for="friend in friends"
+           :key="friend.id"
+      >
+        <RouterLink :to="{ name: ROUTE_USER_PROFILE, params: { id: friend.id } }">
+          <p>{{ friend.name }}</p>
+          <p>{{ friend.email }}</p>
+        </RouterLink>
+        <Button @click.stop="actions[viewType].action(friend.id)">{{
+          actions[viewType].text
+        }}</Button>
+      </div>
+    </div>
+  </div>
 </template>

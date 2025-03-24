@@ -63,60 +63,84 @@ const onFormSubmit = ({ values, valid }: FormSubmitEvent) => {
 </script>
 
 <template>
-	<div class="card flex justify-center">
-		<Form
-			:initialValues
-			:resolver
-			@submit="onFormSubmit"
-			class="flex flex-col gap-4 w-full sm:w-56"
-			v-slot="$form"
-		>
-			<div class="flex flex-col gap-4">
-				<FormField v-slot="$field" name="email" initialValue="mamba@mail.ru">
-					<label for="email">Email</label>
-					<InputText id="email" type="text" fluid v-model.trim="initialValues.email" />
-					<Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
-						{{ $field.error.message }}
-					</Message>
-				</FormField>
-				<FormField v-slot="$field" name="password">
-					<label for="password">Password</label>
-					<Password
-						id="password"
-						type="password"
-						v-model.trim="initialValues.password"
-						:feedback="false"
-						toggle-mask
-						fluid
-						required
-					/>
-					<Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{
-						$field.error.message
-					}}</Message>
-				</FormField>
-				<FormField v-if="view === FormType.Register" v-slot="$field" name="passwordConfirm">
-					<label for="password-confirm">Confirm password*</label>
-					<Password
-						id="password-confirm"
-						type="password-confirm"
-						v-model.trim="initialValues.passwordConfirm"
-						:feedback="false"
-						toggle-mask
-						fluid
-					/>
-					<Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{
-						$field.error.message
-					}}</Message>
-				</FormField>
-			</div>
-			<Button
-				:disabled="!$form.valid || isDisabled"
-				type="submit"
-				severity="secondary"
-				label="Войти"
-			/>
-		</Form>
-	</div>
+  <div class="card flex justify-center">
+    <Form
+      v-slot="$form"
+      :initialValues
+      :resolver
+      class="flex flex-col gap-4 w-full sm:w-56"
+      @submit="onFormSubmit"
+    >
+      <div class="flex flex-col gap-4">
+        <FormField v-slot="$field"
+                   name="email"
+                   initialValue="mamba@mail.ru"
+        >
+          <label for="email">Email</label>
+          <InputText id="email"
+                     v-model.trim="initialValues.email"
+                     type="text"
+                     fluid
+          />
+          <Message v-if="$field?.invalid"
+                   severity="error"
+                   size="small"
+                   variant="simple"
+          >
+            {{ $field.error.message }}
+          </Message>
+        </FormField>
+        <FormField v-slot="$field"
+                   name="password"
+        >
+          <label for="password">Password</label>
+          <Password
+            id="password"
+            v-model.trim="initialValues.password"
+            type="password"
+            :feedback="false"
+            toggle-mask
+            fluid
+            required
+          />
+          <Message v-if="$field?.invalid"
+                   severity="error"
+                   size="small"
+                   variant="simple"
+          >{{
+            $field.error.message
+          }}</Message>
+        </FormField>
+        <FormField v-if="view === FormType.Register"
+                   v-slot="$field"
+                   name="passwordConfirm"
+        >
+          <label for="password-confirm">Confirm password*</label>
+          <Password
+            id="password-confirm"
+            v-model.trim="initialValues.passwordConfirm"
+            type="password-confirm"
+            :feedback="false"
+            toggle-mask
+            fluid
+          />
+          <Message v-if="$field?.invalid"
+                   severity="error"
+                   size="small"
+                   variant="simple"
+          >{{
+            $field.error.message
+          }}</Message>
+        </FormField>
+      </div>
+      <Button
+        :disabled="!$form.valid || isDisabled"
+        type="submit"
+        severity="secondary"
+        label="Войти"
+      />
+    </Form>
+  </div>
 </template>
 
 <style scoped></style>

@@ -61,28 +61,28 @@ watch(
 </script>
 
 <template>
-	<div class="flex gap-4">
-		<FriendsView
-			class="grow"
-			:friends="friends"
-			:viewType="activeTab"
-			:title="routes[activeTab].title"
-		/>
-		<Card
-			:pt="{
-				content: 'flex flex-col gap-3',
-			}"
-			class="flex flex-col gap-3 sticky top-0"
-		>
-			<template #content>
-				<RouterLink
-					v-for="(tab, key) in routes"
-					:key="key"
-					:to="{ query: { section: tab.link.query } }"
-				>
-					{{ tab.link.text }}
-				</RouterLink>
-			</template>
-		</Card>
-	</div>
+  <div class="flex gap-4">
+    <FriendsView
+      class="grow"
+      :friends="friends"
+      :viewType="activeTab"
+      :title="routes[activeTab].title"
+    />
+    <Card
+      :pt="{
+        content: 'flex flex-col gap-3',
+      }"
+      class="flex flex-col gap-3 sticky top-0"
+    >
+      <template #content>
+        <RouterLink
+          v-for="(tab, key) in routes"
+          :key="key"
+          :to="{ query: { section: tab.link.query } }"
+        >
+          {{ tab.link.text }}
+        </RouterLink>
+      </template>
+    </Card>
+  </div>
 </template>
