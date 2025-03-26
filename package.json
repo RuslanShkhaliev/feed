@@ -11,6 +11,7 @@
     "build": "yarn workspaces foreach --all --topological run build",
     "lint": "yarn workspaces foreach --all run lint",
     "lint:fix": "yarn workspaces foreach --all run lint:fix",
+    "test": "yarn workspaces foreach --all run test",
     "prepare": "husky install",
     "postinstall": "yarn workspace @feed/shared run build & yarn workspace backend run prisma:generate"
   },
