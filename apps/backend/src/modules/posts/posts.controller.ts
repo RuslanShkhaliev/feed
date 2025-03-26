@@ -11,7 +11,12 @@ import {
     UsePipes,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { CreatedPost, CreatePostSchema, FeedPost, Post as PostModel } from '@feed/shared/models';
+import {
+    type CreatedPost,
+    CreatePostSchema,
+    FeedPost,
+    Post as PostModel,
+} from '@feed/shared/models';
 import { ZodValidationPipe } from '@/common/validation/zod.pipe';
 import { API_ROUTES } from '@feed/shared/api';
 

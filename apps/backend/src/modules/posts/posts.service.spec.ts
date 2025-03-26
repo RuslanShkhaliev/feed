@@ -1,9 +1,11 @@
 import { PostsService } from '@/modules/posts/posts.service';
-import { PrismaServiceMock } from '@test/factories/prismaMockProvider';
-import { createModuleWithPrisma } from '@test/factories/createMockModule';
-import { createMockPost } from '@test/factories/createMockPost';
+import {
+    createMockPost,
+    createMockUser,
+    createModuleWithPrisma,
+    PrismaServiceMock,
+} from '@test/factories';
 import { Post } from '@prisma/client';
-import { createMockUser } from '@test/factories/createMockUser';
 import { NotFoundException } from '@nestjs/common';
 
 describe('PostsService', () => {
@@ -61,6 +63,8 @@ describe('PostsService', () => {
 
         it('should throw an error if post does not exist', async () => {
             prisma.post.delete.mockRejectedValueOnce(NotFoundException);
+
+            await expect(service.removePost(1, 1)).rejects.toThrow();
         });
     });
     describe('getFeed', () => {
