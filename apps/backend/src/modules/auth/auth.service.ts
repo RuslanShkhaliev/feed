@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@/modules/users';
 import { JWT_REFRESH_SECRET, JWT_SECRET, SALT_ROUNDS } from './constants';
@@ -55,17 +55,20 @@ export class AuthService {
         return this.usersService.findById(id);
     }
     public async validateUser(email: string, password: string): Promise<User> {
-        const user = await this.usersService.findByEmail(email);
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            throw new UnauthorizedException('Invalid credentials');
-        }
-
         try {
+            const user = await this.usersService.findByEmail(email);
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
+                throw new UnauthorizedException('Invalid credentials');
+            }
+
             return UserSchema.parse(user);
         } catch (error) {
-            throw new InternalServerErrorException('Invalid user data format');
+            if (error instanceof UnauthorizedException) {
+                throw new UnauthorizedException('Invalid credentials');
+            }
+            throw error;
         }
     }
     private generateAuthTokens(user: User): AuthResponseWithRefreshToken {
