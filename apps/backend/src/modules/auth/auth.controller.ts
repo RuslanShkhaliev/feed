@@ -10,19 +10,19 @@ import {
     UseGuards,
     UsePipes,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from '@/common/decorators';
 import { LocalAuthGuard } from '@/common/guards';
 import { API_ROUTES } from '@feed/shared/api';
 import { ZodValidationPipe } from '@/common/validation';
 import {
-    AuthCredentials,
+    type AuthCredentials,
     AuthCredentialsSchema,
     type AuthResponse,
     RefreshTokenResponse,
 } from '@feed/shared/models';
-import { COOKIE_OPTIONS, REFRESH_KEY } from '@/modules/auth/index';
+import { COOKIE_OPTIONS, REFRESH_KEY } from '@/modules/auth';
 
 @Controller()
 export class AuthController {
