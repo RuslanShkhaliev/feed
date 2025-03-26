@@ -1,9 +1,7 @@
 import { UsersService } from '@/modules/users/users.service';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { createMockUser } from '@test/factories/createMockUser';
-import { createModuleWithPrisma } from '@test/factories/createMockModule';
-import { PrismaServiceMock } from '@test/factories/prismaMockProvider';
+import { createMockUser, createModuleWithPrisma, PrismaServiceMock } from '@test/factories';
 
 describe('UsersService', () => {
     let service: UsersService;

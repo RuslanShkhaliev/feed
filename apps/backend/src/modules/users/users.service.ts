@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/prisma.service';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { User, UserSchema } from '@feed/shared/models';
 
 @Injectable()
@@ -19,7 +19,6 @@ export class UsersService {
             return UserSchema.parse(user);
         } catch (error) {
             if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
-                // P2002: Unique constraint failed on the fields: (`email`)
                 throw new ConflictException('User already exists');
             }
             throw error;
