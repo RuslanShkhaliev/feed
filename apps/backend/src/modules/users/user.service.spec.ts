@@ -1,7 +1,7 @@
 import { UsersService } from '@/modules/users/users.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { createMockUser, createModuleWithPrisma, PrismaServiceMock } from '@test/factories';
+import { createModuleWithPrisma, FactoryEntityMock, PrismaServiceMock } from '@test/factories';
 
 describe('UsersService', () => {
     let service: UsersService;
@@ -16,7 +16,7 @@ describe('UsersService', () => {
         service = module.get(UsersService);
     });
 
-    const mockUser = createMockUser({
+    const mockUser = FactoryEntityMock.createUser({
         name: '',
         createdAt: new Date(),
     });
