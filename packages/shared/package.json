@@ -25,7 +25,8 @@
 	"scripts": {
 		"build:browser": "tsc --project tsconfig.browser.json",
 		"build:node": "tsc --project tsconfig.node.json",
-		"build": "yarn build:node && yarn build:browser"
+		"build": "yarn build:node && yarn build:browser",
+		"test": "echo \"Shared mock tests\""
 	},
 	"dependencies": {
 		"zod": "^3.24.2"

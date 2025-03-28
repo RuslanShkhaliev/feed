@@ -2,38 +2,136 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
   pull_request:
-    branches: [main]
+    branches:
+      - main
+
+env:
+  NODE_VERSION: 22
+  YARN_VERSION: 4.7.0
 
 jobs:
-  install-and-build:
+  setup:
+    name: 📦 Install dependencies
     runs-on: ubuntu-latest
-
     steps:
-      - name: 🧾 Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: 📥 Enable Corepack and Yarn 4
+      - name: 🧠 Enable Yarn
         run: |
           corepack enable
-          yarn --version
-          yarn install
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
 
-      - name: 🧱 Build Shared
-        run: yarn workspace @feed/shared build
+      - name: ⚙️ Setup Node.js & Corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
 
-      - name: 🔧 Build Backend
-        run: yarn workspace @feed/backend build
+      - name: ♻️ Restore .yarn cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-      - name: 🖼️ Build Frontend
-        run: yarn workspace @feed/frontend build
+      - name: 📦 Install dependencies
+        run: yarn install --immutable
 
-      - name: 🧪 Run tests
-        run: yarn workspaces foreach run test || echo "No tests yet 😅"
+  lint:
+    name: ✏️ Lint
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🧠 Enable Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+      - name: ⚙️ Setup Node.js & Corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - run: yarn install --immutable
+
+      - run: yarn lint
+
+  tests:
+    name: 🧪 Unit tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🧠 Enable Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+      - name: ⚙️ Setup Node.js & Corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - run: yarn install --immutable
+
+      - run: yarn test
+
+  build:
+    name: 🛠️ Build
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🧠 Enable Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+      - name: ⚙️ Setup Node.js & Corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - run: yarn install --immutable
+
+      - run: yarn build
+
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🧠 Enable Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@${{ env.YARN_VERSION }} --activate
+
+      - name: ⚙️ Setup Node.js & Corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - run: yarn install --immutable
+
+      - name: 🚀 Deploy stub
+        run: echo "тут будет деплой"

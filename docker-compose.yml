@@ -18,7 +18,7 @@ services:
 
   backend:
     build:
-      context: packages/backend
+      context: apps/backend
     container_name: backend
     depends_on:
       - postgres
@@ -32,7 +32,7 @@ services:
 
   frontend:
     build:
-      context: packages/frontend
+      context: apps/frontend
     container_name: frontend
     depends_on:
       - backend

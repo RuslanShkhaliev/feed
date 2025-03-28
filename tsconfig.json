@@ -1,5 +1,5 @@
 {
-	"include": ["packages"],
+	"include": ["apps", "packages"],
 	"exclude": ["node_modules", "dist"],
 	"compilerOptions": {
 		"lib": ["ESNext"],
@@ -9,6 +9,8 @@
 		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitAny": false,
+		"isolatedModules": true,
+		"allowJs": true,
 		"strictBindCallApply": false,
 		"noFallthroughCasesInSwitch": false,
 		"allowSyntheticDefaultImports": true,
