@@ -1,4 +1,4 @@
-import { createMockUser, createModuleWithPrisma } from '@test/factories';
+import { createModuleWithPrisma, FactoryEntityMock } from '@test/factories';
 import { AuthService } from '@/modules/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@/modules/users';
@@ -41,7 +41,7 @@ describe('AuthService', () => {
     });
 
     const mockToken = 'token';
-    const mockUser = createMockUser();
+    const mockUser = FactoryEntityMock.createUser();
 
     const userDto = UserSchema.parse(mockUser);
 

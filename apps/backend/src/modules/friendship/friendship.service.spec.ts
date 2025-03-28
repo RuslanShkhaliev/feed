@@ -1,4 +1,4 @@
-import { createMockUser, createModuleWithPrisma, PrismaServiceMock } from '@test/factories';
+import { createModuleWithPrisma, FactoryEntityMock, PrismaServiceMock } from '@test/factories';
 import { FriendshipService } from '@/modules/friendship/friendship.service';
 import { ConflictException } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
@@ -16,8 +16,8 @@ describe('FriendshipService', () => {
         service = module.get(FriendshipService);
     });
 
-    const user1 = createMockUser();
-    const user2 = createMockUser();
+    const user1 = FactoryEntityMock.createUser();
+    const user2 = FactoryEntityMock.createUser();
 
     describe('followUser', () => {
         it('should throw if trying to follow self', async () => {

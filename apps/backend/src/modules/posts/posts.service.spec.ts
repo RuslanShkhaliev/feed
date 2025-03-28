@@ -1,10 +1,5 @@
 import { PostsService } from '@/modules/posts/posts.service';
-import {
-    createMockPost,
-    createMockUser,
-    createModuleWithPrisma,
-    PrismaServiceMock,
-} from '@test/factories';
+import { createModuleWithPrisma, FactoryEntityMock, PrismaServiceMock } from '@test/factories';
 import { Post } from '@prisma/client';
 import { NotFoundException } from '@nestjs/common';
 
@@ -22,7 +17,7 @@ describe('PostsService', () => {
     });
 
     describe('createPost', () => {
-        const mockPost = createMockPost();
+        const mockPost = FactoryEntityMock.createPost();
 
         it('should create a post successful', async () => {
             prisma.post.create.mockResolvedValueOnce(mockPost);
@@ -38,7 +33,9 @@ describe('PostsService', () => {
     });
     describe('getAll', () => {
         const authorId = 1;
-        const mockPosts: Post[] = Array.from({ length: 3 }, () => createMockPost({ authorId }));
+        const mockPosts: Post[] = Array.from({ length: 3 }, () =>
+            FactoryEntityMock.createPost({ authorId }),
+        );
 
         it('should return the posts successfully', async () => {
             prisma.post.findMany.mockResolvedValueOnce(mockPosts);
@@ -50,7 +47,7 @@ describe('PostsService', () => {
         });
     });
     describe('removePost', () => {
-        const mockPost = createMockPost();
+        const mockPost = FactoryEntityMock.createPost();
 
         it('should delete a post successfully', async () => {
             prisma.post.delete.mockResolvedValueOnce(mockPost);
@@ -68,8 +65,8 @@ describe('PostsService', () => {
         });
     });
     describe('getFeed', () => {
-        const mockUser = createMockUser();
-        const mockPost = createMockPost({ authorId: mockUser.id });
+        const mockUser = FactoryEntityMock.createUser();
+        const mockPost = FactoryEntityMock.createPost({ authorId: mockUser.id });
 
         const mockFeed = [
             {
