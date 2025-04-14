@@ -30,6 +30,7 @@ export class AuthService {
     }
     public async login(email: string): Promise<AuthResponseWithRefreshToken> {
         const user = await this.usersService.findByEmail(email);
+        // TODO validate password
 
         return this.generateAuthTokens(UserSchema.parse(user));
     }

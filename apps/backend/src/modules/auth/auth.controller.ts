@@ -62,6 +62,7 @@ export class AuthController {
         };
     }
 
+    @UseGuards(LocalAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post(API_ROUTES.AUTH.REFRESH)
     public async refreshToken(@Req() req: Request): Promise<RefreshTokenResponse> {

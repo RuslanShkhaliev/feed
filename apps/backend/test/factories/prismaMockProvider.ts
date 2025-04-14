@@ -1,4 +1,4 @@
-import { PrismaService } from '../../src/prisma.service';
+import { PrismaService } from '@/modules/prisma/prisma.service';
 
 export const createPrismaServiceMock = () => {
     const prismaServiceMock = {

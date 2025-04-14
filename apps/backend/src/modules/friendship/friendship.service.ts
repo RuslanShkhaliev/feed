@@ -1,8 +1,9 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@/prisma.service';
+import { PrismaService } from '@/modules/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { createPublicUser, USER_SELECT } from '@/modules/users';
 import { PublicUser } from '@feed/shared/models';
+import { createPublicUser } from '@/common/factory';
+import { PUBLIC_USER_SELECT } from '@/modules/users';
 
 @Injectable()
 export class FriendshipService {
@@ -18,7 +19,7 @@ export class FriendshipService {
                 data: { subscriberId, followingId },
                 include: {
                     following: {
-                        select: USER_SELECT,
+                        select: PUBLIC_USER_SELECT,
                     },
                 },
             });
@@ -45,7 +46,7 @@ export class FriendshipService {
                 },
                 include: {
                     following: {
-                        select: USER_SELECT,
+                        select: PUBLIC_USER_SELECT,
                     },
                 },
             });

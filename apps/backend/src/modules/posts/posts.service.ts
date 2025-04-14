@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@/prisma.service';
-import { CreatedPost, FeedPost, Post, PostSchema } from '@feed/shared/models';
-import { USER_SELECT } from '@/modules/users';
+import { PrismaService } from '@/modules/prisma/prisma.service';
+import { CreatedPost, FeedPost, Post } from '@feed/shared/models';
+import { PUBLIC_USER_SELECT } from '@/modules/users';
+import { createPost } from '@/modules/posts/factory';
 
 @Injectable()
 export class PostsService {
@@ -14,7 +15,7 @@ export class PostsService {
             },
         });
 
-        return PostSchema.parse(post);
+        return createPost(post);
     }
 
     public async getAll(authorId: number): Promise<Post[]> {
@@ -42,7 +43,7 @@ export class PostsService {
             },
             include: {
                 author: {
-                    select: USER_SELECT,
+                    select: PUBLIC_USER_SELECT,
                 },
             },
             orderBy: {

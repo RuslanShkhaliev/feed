@@ -5,18 +5,29 @@ import { faker } from '@faker-js/faker';
 import { Post, User } from '@prisma/client';
 
 const up = async () => {
-  const users: User[] = [];
-
-  for (const name of ['Ruslan', 'Daria', 'John', 'Mamba']) {
-    const user = await prisma.user.create({
+  const usersPromises = Array.from({ length: 20 }, () => {
+    return prisma.user.create({
       data: {
-        email: `${name.toLowerCase()}@mail.ru`,
-        name,
+        email: faker.internet.email(),
+        name: faker.person.firstName(),
+        activated: Boolean(Math.random() > 0.5),
         password: bcrypt.hashSync('123', SALT_ROUNDS),
       },
     });
-    users.push(user);
-  }
+  });
+
+  const users: User[] = await Promise.all(usersPromises);
+
+  users.push(
+    await prisma.user.create({
+      data: {
+        email: 'ruslan@mail.ru',
+        name: 'Ruslan',
+        activated: Boolean(Math.random() > 0.5),
+        password: bcrypt.hashSync('123', SALT_ROUNDS),
+      },
+    }),
+  );
 
   console.log(`✅ Создано пользователей: ${users.length}`);
 

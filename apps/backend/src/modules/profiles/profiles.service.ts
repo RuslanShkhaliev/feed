@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@/prisma.service';
-import { createPublicUser, USER_SELECT } from '@/modules/users';
-import { PublicUser, UserSchema } from '@feed/shared/models';
+import { PrismaService } from '@/modules/prisma/prisma.service';
+import { PUBLIC_USER_SELECT } from '@/modules/users';
+import { PublicUser } from '@feed/shared/models';
+import { createPublicUser } from '@/common/factory';
 
 @Injectable()
 export class ProfilesService {
@@ -19,7 +20,6 @@ export class ProfilesService {
                         },
                     ],
                 },
-                select: USER_SELECT,
             })
             .then((users) => users.map((user) => createPublicUser(user, true, true)));
     }
@@ -33,7 +33,7 @@ export class ProfilesService {
                         { id: { not: id } },
                     ],
                 },
-                select: USER_SELECT,
+                select: PUBLIC_USER_SELECT,
             })
             .then((users) => users.map((user) => createPublicUser(user, false, false)));
     }
@@ -46,7 +46,6 @@ export class ProfilesService {
                         { following: { none: { subscriberId: id } } },
                     ],
                 },
-                select: USER_SELECT,
             })
             .then((users) => users.map((user) => createPublicUser(user, true, false)));
     }
@@ -59,7 +58,6 @@ export class ProfilesService {
                         { following: { some: { subscriberId: id } } },
                     ],
                 },
-                select: USER_SELECT,
             })
             .then((users) => users.map((user) => createPublicUser(user, false, true)));
     }
@@ -68,7 +66,7 @@ export class ProfilesService {
         const user = await this.prismaService.user.findUnique({
             where: { id: profileId },
             select: {
-                ...USER_SELECT,
+                ...PUBLIC_USER_SELECT,
                 subscribers: {
                     where: { subscriberId: userId },
                     select: { id: true },
@@ -85,6 +83,6 @@ export class ProfilesService {
         const isSubscriber = user.subscribers?.length > 0;
         const isFollowing = user.following?.length > 0;
 
-        return createPublicUser(UserSchema.parse(user), isSubscriber, isFollowing);
+        return createPublicUser(user, isSubscriber, isFollowing);
     }
 }

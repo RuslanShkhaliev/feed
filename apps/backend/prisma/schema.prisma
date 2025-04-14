@@ -15,6 +15,7 @@ model User {
   password String
   posts Post[] @relation("UserPosts")
   comments Comment[]
+  activated Boolean @default(false)
   subscribers  Friendship[] @relation("UserSubscribers")
   following  Friendship[] @relation("UserFollowing")
 

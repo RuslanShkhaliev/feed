@@ -7,11 +7,13 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_SECRET } from './constants';
 import { LocalStrategy } from './strategies/local.strategy';
+import { PrismaModule } from '@/modules/prisma';
 
 @Module({
     imports: [
         UsersModule,
         PassportModule,
+        PrismaModule,
         JwtModule.register({
             secret: JWT_SECRET,
             signOptions: { expiresIn: '1h' },

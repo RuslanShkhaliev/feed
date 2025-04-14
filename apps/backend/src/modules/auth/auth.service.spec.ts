@@ -77,7 +77,7 @@ describe('AuthService', () => {
         });
     });
 
-    describe('validateUser', () => {
+    describe('validateUserById', () => {
         it('should return user by valid id', async () => {
             usersService.findById.mockResolvedValue(userDto);
 

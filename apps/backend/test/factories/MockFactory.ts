@@ -22,6 +22,7 @@ export class FactoryEntityMock {
             password: faker.internet.password(),
             name: faker.person.firstName(),
             createdAt: faker.date.recent(),
+            activated: true,
             ...overrides,
         };
     };
